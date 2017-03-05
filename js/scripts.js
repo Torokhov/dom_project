@@ -36,4 +36,30 @@ function buildTable(headers, data) {
   document.body.appendChild(table);
 }
 
+function byTagName(node, tag) {
+  function iter(node, elements) {
+    if (node.children.length === 0) {
+      return elements;
+    }
+    
+    for (var i = 0; i < node.children.length; i++) {
+      if (node.children[i].tagName === tag.toUpperCase()) {
+        elements.push(node.children[i]);
+      }
+      
+      if (node.children[i].children.length !== 0) {
+        elements = iter(node.children[i], elements);
+      }
+    }
+    return elements;
+  }
+  
+  return iter(node, []);
+}
+
+alert(byTagName(document.body, 'h1').length);
+alert(byTagName(document.body, 'span').length);
+var p = document.body.querySelector('p');
+alert(byTagName(p, 'span').length);
+
 buildTable(['name', 'height', 'country'], ['Kilimanjaro', '5895', 'Tanzania']);
